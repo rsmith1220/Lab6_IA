@@ -1,10 +1,10 @@
 # Lab6_IA
 
-##Respuesta a preguntas 
+## Respuesta a preguntas 
 
-###League of legends
+### League of legends
 ¿Qué implementación fue mejor? ¿Por qué?
 
 
-###FIFA
+### FIFA
 ¿Qué implementación fue mejor? ¿Por qué?
