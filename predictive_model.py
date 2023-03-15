@@ -13,7 +13,7 @@ class Node():
         # For leaf node -> Hoja con valor >> El valor de la decision, la clase seleccionada para el nodo
         self.value = value
 
-class DecisionTreeClassifier():
+class DecisionTreeClassifierLP():
     def __init__(self, dae: DataExplorer, min_samples_split= 2, max_depth = 2) -> None:
         self.root =  None
         self.min_samples_split = min_samples_split
@@ -141,7 +141,7 @@ if __name__ == "__main__":
     col = data.columns
     dae = DataExplorer(data, 'blueWins', value_split=True, keep_columns=['blueWins', "blueKills", "blueDeaths", "blueTowersDestroyed", "blueTotalGold", "redTowersDestroyed", "redTotalGold"])
     dae.reinstantiate_x_y()
-    dtc = DecisionTreeClassifier(dae, max_depth=5)
+    dtc = DecisionTreeClassifierLP(dae, max_depth=5)
     dtc.fit()
     x_test = dae.X_test
     y_predict = dtc.predict(x_test)    
