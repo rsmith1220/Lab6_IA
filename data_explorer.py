@@ -7,7 +7,7 @@ import re
 
 class DataExplorer():
 
-    def __init__(self, data: DataFrame, target, random_state = 2, test_size = 0.3, value_split = False, drop_columns = [], keep_columns = [], null_rows = "Delete") -> None:
+    def __init__(self, data: DataFrame, target, random_state = 2, test_size = 0.3, value_split = False, drop_columns = [], keep_columns = []) -> None:
         self.data = data
         self.target = target
         self.random_state = random_state
@@ -35,8 +35,10 @@ class DataExplorer():
         return self.X, self.Y
 
     def calculate_split_data(self):
-        self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(self.X, self.Y, test_size = 0.2, random_state = self.random_state)
-        self.X_test, self.X_val, self.Y_test, self.Y_val = train_test_split(self.X_test, self.Y_test, test_size=0.5, random_state = self.random_state)
+        self.X_val, self.Y_val = None, None
+        self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(self.X, self.Y, test_size = self.test_size, random_state = self.random_state)
+        if self.value_split:    
+            self.X_test, self.X_val, self.Y_test, self.Y_val = train_test_split(self.X_test, self.Y_test, test_size=0.5, random_state = self.random_state)
         return self.X_train, self.X_test, self.X_val, self.Y_train, self.Y_test, self.Y_val 
 
     def clean_data_none(self, reinstantiateXY = False):
@@ -86,3 +88,30 @@ class DataExplorer():
     def apply_func_column(self, func, column, astype, reinstantiateXY = False):
         self.data[column] = self.data[column].apply(func).astype(astype)
         if reinstantiateXY: self.reinstantiate_x_y()
+    
+    def appliable_func_value_on_condition(self, column, operation, parameter):
+        operations = {
+            "==": lambda x: x==parameter,
+            ">=": lambda x: x>=parameter, 
+            ">" : lambda x: x>parameter,
+            "<=": lambda x: x<=parameter, 
+            "<" : lambda x: x<parameter
+        }
+        if operation not in operations:
+            key_str = ', '.join(str(key) for key in operations.keys())
+            print(f"Must be one of theese: {key_str}")
+            return
+        return self.apply_func_column(operations[operation], column, "float", False)
+
+    def accuracy(self, y_predict):
+        y_ref = list(self.Y_test[self.target])
+        if len(y_predict)!=len(y_ref):
+            print("Prediction must be the same legth as the test. Try predicting with X_test")
+            return None
+        acc = 0
+        test_size = len(y_ref)
+        for i in range(test_size):
+            if y_ref[i]==y_predict[i]:
+                acc += 1
+        return acc/test_size
+    
