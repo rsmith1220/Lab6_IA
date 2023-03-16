@@ -25,8 +25,7 @@ def proccess_data_lol():
     X_train, X_test, X_val, Y_train, Y_test, Y_val = dae.reinstantiate_x_y()
     dtc = DecisionTreeClassifierLP(dae, max_depth=5)
     dtc.fit()
-    x_test = dae.X_test
-    y_predict = dtc.predict(x_test)    
+    y_predict = dtc.predict(X_test)    
     acc = dae.accuracy(y_predict)
     print("LOL results: ")
     print(f"\tAccuracy of LOL BlueWins prediction of DTC from scratch: {acc}")

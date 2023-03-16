@@ -1,7 +1,16 @@
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, mean_squared_error
 import pandas as pd
 import matplotlib.pyplot as plt
 from data_explorer import DataExplorer
+from decision_tree_regression import DecisionTreeRegressor
+
+def DTC_sk(X_train, X_test, X_val, Y_train, Y_test, Y_val):
+    regr = DecisionTreeRegressor()
+    regr.fit(X_train, Y_train)
+    y_pred = regr.predict(X_test)
+    mse = mean_squared_error(Y_test, y_pred)
+    print(f"\tAccuracy of R2, from sklearn implementation potential: {mse}")
 
 def convert_money_to_number(x):
     factor = 1
@@ -48,12 +57,15 @@ def proccess_data_fifa():
     dae.apply_func_column(convert_to_number_or_operation, "Finishing", "float")#Finishing
     dae.apply_func_column(convert_to_number_or_operation, "Dribbling", "float")#Dribbling
     dae.apply_func_column(convert_to_number_or_operation, "Composure", "float")#Compsure
-    dae.reinstantiate_x_y()
+    X_train, X_test, X_val, Y_train, Y_test, Y_val = dae.reinstantiate_x_y()
     data = dae.data
-
-    mixed_cols = data.select_dtypes(include=['object']).columns
-    # Print the columns with mixed datatype
-    high_corr, correlations_count = dae.correlation_in_dataset(0.7) #
+    dtr = DecisionTreeRegressor(dae)
+    dtr.fit()
+    y_predict = dtr.predict(X_test) 
+    y_real = Y_test[dae.target].values
+    acc = mean_squared_error(y_real, y_predict)
+    print("FIFA results: ")
+    print(f"\tAccuracy of R2, from scratch implementation potential: {acc}")
 
 
 if __name__ == "__main__":
