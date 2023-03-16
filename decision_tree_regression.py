@@ -98,5 +98,11 @@ class DecisionTreeRegressor():
         return self.make_prediction(x, tree.right)
     
     def predict(self, x):
+        if not isinstance(x, np.ndarray) or isinstance(x, list):
+            if isinstance(x, pd.DataFrame):
+                x = x.values
+            else:
+                print("Not acceptable type of x in prediction")
+                return None
         return [self.make_prediction(i, self.root) for i in x]
         

@@ -46,7 +46,7 @@ class DecisionTreeClassifierLP():
         self.root = self.build_tree(dataset)
 
     def predict(self, x):
-        if not isinstance(x, np.ndarray):
+        if not isinstance(x, np.ndarray) or isinstance(x, list):
             if isinstance(x, pd.DataFrame):
                 x = x.values
             else:
