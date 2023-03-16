@@ -1,11 +1,11 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from data_explorer import DataExplorer
-from predictive_model import DecisionTreeClassifierLP
+from decision_tree_classifier import DecisionTreeClassifierLP
 
 
 # Import the necessary libraries
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier 
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score

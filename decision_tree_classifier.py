@@ -134,7 +134,8 @@ class DecisionTreeClassifierLP():
     def __calculate_leaf_value(self, y):
         y = list(y)
         return max(y, key=y.count)
-    
+
+  
 #Pruebas
 if __name__ == "__main__":
     data = pd.read_csv('high_diamond_ranked_10min.csv')
