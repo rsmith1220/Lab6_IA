@@ -12,7 +12,7 @@ class Node():
 
         self.value = value
 
-class DecisionTreeRegressor():
+class DecisionTreeRegressorLP():
     
     def __init__(self, dae: DataExplorer, min_samples_split = 2, max_depth = 2) -> None:
         self.root = None

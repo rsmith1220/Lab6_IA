@@ -3,7 +3,8 @@ from sklearn.metrics import accuracy_score, mean_squared_error
 import pandas as pd
 import matplotlib.pyplot as plt
 from data_explorer import DataExplorer
-from decision_tree_regression import DecisionTreeRegressor
+from decision_tree_regression import DecisionTreeRegressorLP
+from sklearn.tree import DecisionTreeRegressor
 
 def DTC_sk(X_train, X_test, X_val, Y_train, Y_test, Y_val):
     regr = DecisionTreeRegressor()
@@ -46,22 +47,22 @@ def proccess_data_fifa():
 
 
     """
-    dae = DataExplorer(data, "Potential", keep_columns=['Age', 'Overall', 'Value', 'Special', 'Potential'], value_split=True)
+    dae = DataExplorer(data, "Potential", keep_columns=['Age', 'Overall', 'Value', 'Wage', 'Special', 'Acceleration', "Dribbling", "Finishing", 'Agility', 'Ball control', 'Composure', 'Potential'], value_split=True)    
     data = dae.data
     # Getting number value from each column 
     dae.apply_func_column(convert_money_to_number, "Value", "float") #Value -> Money
-    #dae.apply_func_column(convert_money_to_number, "Wage", "float")#Wage -> money
-    #dae.apply_func_column(convert_to_number_or_operation, "Acceleration", "float")#Acceleration -> Nummber or operation
-    #dae.apply_func_column(convert_to_number_or_operation, "Agility", "float")#Agility -> Number or operation
-    #dae.apply_func_column(convert_to_number_or_operation, "Ball control", "float")#Ball control -> Number or operation
-    #dae.apply_func_column(convert_to_number_or_operation, "Finishing", "float")#Finishing
-    #dae.apply_func_column(convert_to_number_or_operation, "Dribbling", "float")#Dribbling
-    #dae.apply_func_column(convert_to_number_or_operation, "Composure", "float")#Compsure
+    dae.apply_func_column(convert_money_to_number, "Wage", "float")#Wage -> money
+    dae.apply_func_column(convert_to_number_or_operation, "Acceleration", "float")#Acceleration -> Nummber or operation
+    dae.apply_func_column(convert_to_number_or_operation, "Agility", "float")#Agility -> Number or operation
+    dae.apply_func_column(convert_to_number_or_operation, "Ball control", "float")#Ball control -> Number or operation
+    dae.apply_func_column(convert_to_number_or_operation, "Finishing", "float")#Finishing
+    dae.apply_func_column(convert_to_number_or_operation, "Dribbling", "float")#Dribbling
+    dae.apply_func_column(convert_to_number_or_operation, "Composure", "float")#Compsure
     X_train, X_test, X_val, Y_train, Y_test, Y_val = dae.reinstantiate_x_y()
     data = dae.data
     high_corr, correlations_count = dae.correlation_in_dataset()
-
-    dtr = DecisionTreeRegressor(dae)
+    # print(dae.check_balance(dae.target))
+    dtr = DecisionTreeRegressorLP(dae)
     dtr.fit()
     y_predict = dtr.predict(X_test) 
     y_real = list(Y_test[dae.target].values)

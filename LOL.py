@@ -23,6 +23,7 @@ def proccess_data_lol():
     data = pd.read_csv('high_diamond_ranked_10min.csv')
     dae = DataExplorer(data, 'blueWins', value_split=True, keep_columns=['blueWins', "blueKills", "blueDeaths", "blueTowersDestroyed", "blueTotalGold", "redTowersDestroyed", "redTotalGold"])
     X_train, X_test, X_val, Y_train, Y_test, Y_val = dae.reinstantiate_x_y()
+    # print(dae.check_balance(dae.target)) #Expliracion de datos
     dtc = DecisionTreeClassifierLP(dae, max_depth=5)
     dtc.fit()
     y_predict = dtc.predict(X_test)    

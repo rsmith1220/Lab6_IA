@@ -115,3 +115,6 @@ class DataExplorer():
                 acc += 1
         return acc/test_size
     
+    def check_balance(self, column):
+        return self.data[column].value_counts().to_dict()
+        
